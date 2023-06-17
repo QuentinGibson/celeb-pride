@@ -12,7 +12,19 @@ async function seed() {
   });
 
   const hashedPassword = await bcrypt.hash("racheliscool", 10);
+  const hashedPassword2 = await bcrypt.hash("password", 10);
 
+  await prisma.user.create({
+    data: {
+      email: "quentingibson94@gmail.com",
+      role: "ADMIN",
+      password: {
+        create: {
+          hash: hashedPassword2,
+        },
+      },
+    },
+  });
   const user = await prisma.user.create({
     data: {
       email,

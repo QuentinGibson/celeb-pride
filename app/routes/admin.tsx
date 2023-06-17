@@ -24,13 +24,13 @@ export default function ComponentName() {
       <h1 className="text-5xl font-bold pb-8">Admin</h1>
       <ul>
         <li><Link className="hover:underline" to="/admin/celeb/new">New Celebrity</Link></li>
-        <li><Link className="hover:underline" to="/admin/celeb/edit">Edit Celebrity</Link></li>
-        <li><Link className="hover:underline" to="/admin/category/new">Create Category</Link></li>
-        <li><Link className="hover:underline" to="/admin/category/edit">Edit Category</Link></li>
+        <li><Link className="hover:underline" to="/admin/celebs">Edit Celebrity</Link></li>
+        <li><Link className="hover:underline" to="/admin/category/new">New Category</Link></li>
+        <li><Link className="hover:underline" to="/admin/categories/">Edit Category</Link></li>
         <li><Link className="hover:underline" to="/admin/flag/new">New Flag</Link></li>
-        <li><Link className="hover:underline" to="/admin/flag/edit">Edit Flag</Link></li>
+        <li><Link className="hover:underline" to="/admin/flags">Edit Flag</Link></li>
         <li><Link className="hover:underline" to="/admin/pronoun/new">New Pronouns</Link></li>
-        <li><Link className="hover:underline" to="/admin/pronoun/edit">Edit Pronouns</Link></li>
+        <li><Link className="hover:underline" to="/admin/pronouns">Edit Pronouns</Link></li>
       </ul>
     </main>
   );
