@@ -37,7 +37,6 @@ export default function Layout({ children }: LayoutProps) {
             {isDesktop ?
               <nav className="flex gap-4 items-center text-xl">
                 <Link prefetch="intent" to="/about">About</Link>
-                <Link prefetch="intent" to="/howtouse">How To Use</Link>
                 {!user &&
                   <Link prefetch="intent" className="hover:underline" to={"/login"}>Login</Link>
                 }

@@ -1,14 +1,12 @@
 import type { V2_MetaFunction } from "@remix-run/node";
 import { Form, Link } from "@remix-run/react";
 
-import { useOptionalUser } from "~/utils";
 
-export const meta: V2_MetaFunction = () => [{ title: "Remix Notes" }];
+export const meta: V2_MetaFunction = () => [{ title: "Celeb Pride" }];
 
 export default function Index() {
-  const user = useOptionalUser();
   return (
-    <main className="min-h-[500px] bg-[url('/pride-banner-background.jpg')]">
+    <main className="min-h-[500px] bg-[url('/pride-banner-background.jpg')] max-w-7xl flex mx-auto">
       <div className="relative sm:pb-16 sm:pt-8  w-full">
         <div className="flex justify-center mb-4">
           <div className="bg-slate-900 px-24 py-6">
