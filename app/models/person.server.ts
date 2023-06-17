@@ -18,6 +18,8 @@ export async function getPerson(id: string) {
       where: { id },
       include: {
         category: true,
+        pronoun: true,
+        flag: true,
       },
     });
     invariant(person, "Could not find person by given id");
