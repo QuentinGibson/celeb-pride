@@ -11,8 +11,8 @@ model User {
   id    String @id @default(cuid())
   email String @unique
   role String @default("USER")
-  flag Flag @relation(fields: [flagId], references: [id], onDelete: Cascade, onUpdate: Cascade )
-  flagId String
+  flag Flag? @relation(fields: [flagId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  flagId String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -27,7 +27,7 @@ model Person {
   image String
   age Int
   pronoun Pronoun @relation(fields: [pronounId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  pronounId String
+  pronounId String 
   category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   categoryId String
   flag Flag @relation(fields: [flagId], references: [id], onDelete: Cascade, onUpdate: Cascade )
@@ -36,18 +36,18 @@ model Person {
 
 model Pronoun {
   id String @id @default(cuid())
-  name String
+  name String @unique
   people Person[]
 }
 model Category {
   id String @id @default(cuid())
-  name String
+  name String @unique
   people Person[]
 }
 
 model Flag {
   id String @id @default(cuid())
-  name String
+  name String @unique
   image String
   user User[]
   person Person[]
