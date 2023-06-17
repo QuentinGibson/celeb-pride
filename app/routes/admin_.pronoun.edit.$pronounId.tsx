@@ -4,7 +4,7 @@ import { Form, Link, useLoaderData } from "@remix-run/react";
 import { BsArrowLeft } from "react-icons/bs";
 import invariant from "tiny-invariant";
 import { getPronoun, updatePronoun } from "~/models/pronoun.server";
-import { getSession } from "~/session.server";
+import { getSession, sessionStorage } from "~/session.server";
 
 export const loader = async ({ request, params }: LoaderArgs) => {
   const { pronounId } = params
@@ -22,7 +22,7 @@ export default function EditCategoryForm() {
         <p className="py-4 text-lg">Back </p>
       </Link>
       <h1 className="text-5xl font-bold">Edit Pronoun</h1>
-      <Form method="POST" className="mt-8" encType="multipart/form-data">
+      <Form method="POST" className="mt-8">
         <div className="flex flex-col gap-4">
           <div className="flex gap-2">
             <label className="text-lg" htmlFor="name">Name</label>
@@ -40,20 +40,7 @@ export default function EditCategoryForm() {
 
 export const action = async ({ request, params }: DataFunctionArgs) => {
   const session = await getSession(request);
-  const uploadHandler = unstable_composeUploadHandlers(
-    unstable_createFileUploadHandler({
-      maxPartSize: 5_000_000,
-      directory: "./public/uploads/blog",
-      avoidFileConflicts: true,
-      file: ({ filename }) => filename,
-    }),
-    // parse everything else into memory
-    unstable_createMemoryUploadHandler()
-  );
-  const formData = await unstable_parseMultipartFormData(
-    request,
-    uploadHandler
-  );
+  const formData = await request.formData()
 
   const name = formData.get("name") as string
   const id = formData.get("id") as string

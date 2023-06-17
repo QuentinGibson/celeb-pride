@@ -30,7 +30,7 @@ export default function NewBlogRoute() {
         <BsArrowLeft />
         <p className="py-4 text-lg">Back </p>
       </Link>
-      <h1 className="text-5xl font-bold">New Flag</h1>
+      <h1 className="text-5xl font-bold">New Pronoun</h1>
       <Form method="POST" className="mt-8" encType="multipart/form-data">
         <div className="flex flex-col gap-4">
           <div className="flex gap-2">
@@ -48,20 +48,7 @@ export default function NewBlogRoute() {
 
 export const action = async ({ request, params }: DataFunctionArgs) => {
   const session = await getSession(request);
-  const uploadHandler = unstable_composeUploadHandlers(
-    unstable_createFileUploadHandler({
-      maxPartSize: 5_000_000,
-      directory: "./public/uploads/blog",
-      avoidFileConflicts: true,
-      file: ({ filename }) => filename,
-    }),
-    // parse everything else into memory
-    unstable_createMemoryUploadHandler()
-  );
-  const formData = await unstable_parseMultipartFormData(
-    request,
-    uploadHandler
-  );
+  const formData = await request.formData()
 
   const name = formData.get("name") as string
 
