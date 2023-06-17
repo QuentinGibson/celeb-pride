@@ -62,7 +62,9 @@ function Body() {
       <body className="h-full">
         <Layout>
           {message ? (
-            <div className={clsx("absolute px-4 py-2 font-bold bg-cream border dark:bg-slate-800 dark:border-slate-400 dark:text-slate-100 border-slate-400 flex justify-center", { "hidden": visible })}><p>{message}</p></div>
+            <div className={clsx("absolute px-4 py-2 font-bold bg-cream border dark:bg-slate-800 dark:border-slate-400 dark:text-slate-100 border-slate-400 flex justify-center", { "hidden": visible })}>
+              <p>{message}</p>
+            </div>
           ) : null}
           <Outlet />
         </Layout>

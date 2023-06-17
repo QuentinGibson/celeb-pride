@@ -13,9 +13,9 @@ export default function Index() {
             <h1 className="text-white text-5xl font-bold leading-loose tracking-wide">Celeb Pride Search</h1>
           </div>
         </div>
-        <Form className="flex justify-center">
+        <Form className="flex justify-center" method="GET" action="/celebrities">
           <div className="flex">
-            <input type="text" name="search" id="" className="bg-blue-500 px-2 py-2 select-none focus:ring-0" />
+            <input type="text" name="query" id="" className="bg-blue-500 px-2 py-2 select-none focus:ring-0" />
             <button type="submit" className="px-2 py-2 bg-blue-900 text-white">Search</button>
           </div>
         </Form>

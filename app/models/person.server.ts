@@ -1,3 +1,4 @@
+import invariant from "tiny-invariant";
 import { prisma } from "~/db.server";
 
 export async function createPerson(data: any) {
@@ -13,7 +14,13 @@ export async function createPerson(data: any) {
 
 export async function getPerson(id: string) {
   try {
-    const person = await prisma.person.findUnique({ where: { id } });
+    const person = await prisma.person.findUnique({
+      where: { id },
+      include: {
+        category: true,
+      },
+    });
+    invariant(person, "Could not find person by given id");
     return person;
   } catch (e: any) {
     throw new Error("Failed to read Person. Message: " + e.message);
