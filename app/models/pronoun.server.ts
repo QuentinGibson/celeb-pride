@@ -1,3 +1,4 @@
+import invariant from "tiny-invariant";
 import { prisma } from "~/db.server";
 export async function createPronoun(data: any) {
   try {
@@ -13,6 +14,7 @@ export async function createPronoun(data: any) {
 export async function getPronoun(id: string) {
   try {
     const pronoun = await prisma.pronoun.findUnique({ where: { id } });
+    invariant(pronoun, "Failed to find pronoun with that Id.");
     return pronoun;
   } catch (e: any) {
     throw new Error("Failed to read Pronoun. Message: " + e.message);

@@ -6,6 +6,13 @@ import invariant from "tiny-invariant";
 import { getCategory, updateCategory } from "~/models/category.server";
 import { getSession } from "~/session.server";
 
+export function meta({ matches }: { matches: any }) {
+  const rootMeta = matches[0].meta;
+  const title = rootMeta.find((m: any) => m.title)
+  return [
+    { title: title.title + " | Edit Category" }
+  ]
+}
 export const loader = async ({ request, params }: LoaderArgs) => {
   const { categoryId } = params
   invariant(categoryId, "Please provide an id")
@@ -26,7 +33,7 @@ export default function EditCategoryForm() {
         <div className="flex flex-col gap-4">
           <div className="flex gap-2">
             <label className="text-lg" htmlFor="name">Name</label>
-            <input required type="text" name="name" id="name" defaultValue={category.name} />
+            <input type="text" name="name" id="name" defaultValue={category.name} />
           </div>
           <div className="flex gap-2">
             <button className="px-4 py-2 bg-yellow-700" type="submit">Submit</button>

@@ -13,7 +13,7 @@ export function meta({ matches }: { matches: any }) {
   const rootMeta = matches[0].meta;
   const title = rootMeta.find((m: any) => m.title)
   return [
-    { title: title.title + " | New Blog" }
+    { title: title.title + " | New Celebrity" }
   ]
 }
 
@@ -97,7 +97,7 @@ export const action = async ({ request, params }: DataFunctionArgs) => {
   );
 
   const name = formData.get("name") as string
-  const image = formData.get("image") as string
+  const image = formData.get("image") as any
   const age = formData.get("age") as string
   const pronoun = formData.get("pronoun") as string
   const category = formData.get("category") as string
@@ -110,9 +110,12 @@ export const action = async ({ request, params }: DataFunctionArgs) => {
   invariant(category, "Category is required")
   invariant(flag, "Flag is required")
 
+  const publicIndex = image.filepath.indexOf("uploads") - 1
+  const url = image.filepath.slice(publicIndex)
+
   await createPerson({
     name,
-    image,
+    image: url,
     age,
     pronoun,
     category,
