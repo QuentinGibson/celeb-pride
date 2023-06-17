@@ -1,3 +1,4 @@
+import invariant from "tiny-invariant";
 import { prisma } from "~/db.server";
 export async function createCategory(data: any) {
   try {
@@ -13,6 +14,7 @@ export async function createCategory(data: any) {
 export async function getCategory(id: string) {
   try {
     const category = await prisma.category.findUnique({ where: { id } });
+    invariant(category, "No category found with this id");
     return category;
   } catch (e: any) {
     throw new Error("Failed to read Category. Message: " + e.message);
