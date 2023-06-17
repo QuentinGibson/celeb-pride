@@ -4,7 +4,7 @@ import { Form, Link, useLoaderData } from "@remix-run/react";
 import { BsArrowLeft } from "react-icons/bs";
 import invariant from "tiny-invariant";
 import { getCategory, updateCategory } from "~/models/category.server";
-import { getSession } from "~/session.server";
+import { getSession, sessionStorage } from "~/session.server";
 
 export function meta({ matches }: { matches: any }) {
   const rootMeta = matches[0].meta;

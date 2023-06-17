@@ -7,7 +7,7 @@ import { getAllCategory } from "~/models/category.server";
 import { getAllFlag } from "~/models/flag.server";
 import { getPerson, updatePerson } from "~/models/person.server";
 import { getAllPronouns } from "~/models/pronoun.server";
-import { getSession } from "~/session.server";
+import { getSession, sessionStorage } from "~/session.server";
 
 export function meta({ matches }: { matches: any }) {
   const rootMeta = matches[0].meta;
@@ -56,14 +56,14 @@ export default function EditCategoryForm() {
             </select>
           </div>
           <div className="flex gap-2">
-            <label className="text-lg" htmlFor="pronoun">Categories</label>
-            <select name="pronoun" id="pronoun" defaultValue={celeb.category.name}>
+            <label className="text-lg" htmlFor="categories">Categories</label>
+            <select name="category" id="categories" defaultValue={celeb.category.name}>
               {categories.map((category, index) => <option key={index} value={category.name}>{category.name}</option>)}
             </select>
           </div>
           <div className="flex gap-2">
-            <label className="text-lg" htmlFor="pronoun">Flags</label>
-            <select name="pronoun" id="pronoun" defaultValue={celeb.flag.name}>
+            <label className="text-lg" htmlFor="flags">Flags</label>
+            <select name="flag" id="flags" defaultValue={celeb.flag.name}>
               {flags.map((flag, index) => <option key={index} value={flag.name}>{flag.name}</option>)}
             </select>
           </div>
@@ -103,30 +103,21 @@ export const action = async ({ request, params }: DataFunctionArgs) => {
   const flag = formData.get("flag") as string
   const id = formData.get("id") as string
 
-  const publicIndex = image.filepath.indexOf("uploads") - 1
-
   let url
-  if (image) {
-    console.dir(image)
+  if (image.name !== "") {
+    const publicIndex = image.filepath.indexOf("uploads") - 1
     url = image.filepath.slice(publicIndex)
   }
-
-  invariant(name, "Name is required")
-  invariant(image, "Image is required")
-  invariant(age, "Age is required")
-  invariant(pronoun, "Pronoun is required")
-  invariant(category, "Category is required")
-  invariant(flag, "Flag is required")
 
   await updatePerson(id, {
     name,
     image: url,
-    age,
-    pronoun,
-    category,
-    flag
+    age: Number(age),
+    pronoun: { connect: { name: pronoun } },
+    category: { connect: { name: category } },
+    flag: { connect: { name: flag } }
   })
 
-  session.flash("globalMessage", "Person created sucessfully!")
+  session.flash("globalMessage", "Person updated sucessfully!")
   return redirect("/", { headers: { "Set-Cookie": await sessionStorage.commitSession(session) } })
 };

@@ -1,3 +1,4 @@
+import invariant from "tiny-invariant";
 import { prisma } from "~/db.server";
 export async function createFlag(data: any) {
   try {
@@ -13,6 +14,7 @@ export async function createFlag(data: any) {
 export async function getFlag(id: string) {
   try {
     const flag = await prisma.flag.findUnique({ where: { id } });
+    invariant(flag, "Can't a flag with this ID");
     return flag;
   } catch (e: any) {
     throw new Error("Failed to read Flag. Message: " + e.message);

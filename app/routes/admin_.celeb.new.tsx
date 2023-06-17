@@ -59,14 +59,14 @@ export default function NewBlogRoute() {
             </select>
           </div>
           <div className="flex gap-2">
-            <label className="text-lg" htmlFor="pronoun">Categories</label>
-            <select name="pronoun" id="pronoun">
+            <label className="text-lg" htmlFor="categories">Categories</label>
+            <select name="category" id="categories">
               {categories.map((category, index) => <option key={index} value={category.name}>{category.name}</option>)}
             </select>
           </div>
           <div className="flex gap-2">
-            <label className="text-lg" htmlFor="pronoun">Flags</label>
-            <select name="pronoun" id="pronoun">
+            <label className="text-lg" htmlFor="flags">Flags</label>
+            <select name="flag" id="flags">
               {flags.map((flag, index) => <option key={index} value={flag.name}>{flag.name}</option>)}
             </select>
           </div>
@@ -84,7 +84,7 @@ export const action = async ({ request, params }: DataFunctionArgs) => {
   const uploadHandler = unstable_composeUploadHandlers(
     unstable_createFileUploadHandler({
       maxPartSize: 5_000_000,
-      directory: "./public/uploads/blog",
+      directory: "./public/uploads/person",
       avoidFileConflicts: true,
       file: ({ filename }) => filename,
     }),
@@ -116,10 +116,10 @@ export const action = async ({ request, params }: DataFunctionArgs) => {
   await createPerson({
     name,
     image: url,
-    age,
-    pronoun,
-    category,
-    flag
+    age: Number(age),
+    pronoun: { connect: { name: pronoun } },
+    category: { connect: { name: category } },
+    flag: { connect: { name: flag } }
   })
 
   session.flash("globalMessage", "Person created sucessfully!")
