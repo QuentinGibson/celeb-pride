@@ -1,4 +1,5 @@
-import { DataFunctionArgs, LoaderArgs, redirect, unstable_composeUploadHandlers, unstable_createFileUploadHandler, unstable_createMemoryUploadHandler, unstable_parseMultipartFormData } from "@remix-run/node";
+import type { DataFunctionArgs, LoaderArgs } from "@remix-run/node";
+import { redirect, unstable_composeUploadHandlers, unstable_createFileUploadHandler, unstable_createMemoryUploadHandler, unstable_parseMultipartFormData } from "@remix-run/node";
 import { Form, Link, useLoaderData } from "@remix-run/react";
 import { BsArrowLeft } from "react-icons/bs";
 import invariant from "tiny-invariant";

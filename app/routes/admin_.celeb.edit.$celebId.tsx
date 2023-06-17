@@ -1,48 +1,38 @@
-import { Form, Link, useLoaderData } from "@remix-run/react";
-import { BsArrowLeft } from 'react-icons/bs'
 import type { DataFunctionArgs, LoaderArgs } from "@remix-run/node";
-import { unstable_composeUploadHandlers, unstable_createFileUploadHandler, unstable_createMemoryUploadHandler, unstable_parseMultipartFormData, redirect } from "@remix-run/node";
+import { redirect, unstable_composeUploadHandlers, unstable_createFileUploadHandler, unstable_createMemoryUploadHandler, unstable_parseMultipartFormData } from "@remix-run/node";
+import { Form, Link, useLoaderData } from "@remix-run/react";
+import { BsArrowLeft } from "react-icons/bs";
 import invariant from "tiny-invariant";
-import { getSession, requireUser, sessionStorage } from "~/session.server";
 import { getAllCategory } from "~/models/category.server";
-import { getAllPronouns } from "~/models/pronoun.server";
 import { getAllFlag } from "~/models/flag.server";
-import { createPerson } from "~/models/person.server";
-
-export function meta({ matches }: { matches: any }) {
-  const rootMeta = matches[0].meta;
-  const title = rootMeta.find((m: any) => m.title)
-  return [
-    { title: title.title + " | New Blog" }
-  ]
-}
+import { getPerson, updatePerson } from "~/models/person.server";
+import { getAllPronouns } from "~/models/pronoun.server";
+import { getSession } from "~/session.server";
 
 export const loader = async ({ request, params }: LoaderArgs) => {
-  const user = await requireUser(request)
-  if (user.role !== "ADMIN") {
-    redirect("/")
-  }
+  const { celebId } = params
+  invariant(celebId, "Please provide an id")
+  const celeb = await getPerson(celebId)
   const pronouns = await getAllPronouns()
   const flags = await getAllFlag()
   const categories = await getAllCategory()
-  return { pronouns, flags, categories }
+  return { celeb, pronouns, flags, categories }
 };
 
-export default function NewBlogRoute() {
-  const { pronouns, flags, categories } = useLoaderData<typeof loader>()
-
+export default function EditCategoryForm() {
+  const { celeb, pronouns, flags, categories } = useLoaderData<typeof loader>()
   return (
     <main className="bg-cream py-8 px-4">
       <Link to="/admin" className="flex gap-1 items-center">
         <BsArrowLeft />
         <p className="py-4 text-lg">Back </p>
       </Link>
-      <h1 className="text-5xl font-bold">New Person</h1>
+      <h1 className="text-5xl font-bold">Edit Person</h1>
       <Form method="POST" className="mt-8" encType="multipart/form-data">
         <div className="flex flex-col gap-4">
           <div className="flex gap-2">
             <label className="text-lg" htmlFor="name">Name</label>
-            <input required type="text" name="name" id="name" />
+            <input required type="text" name="name" id="name" defaultValue={celeb.name} />
           </div>
           <div className="flex gap-2">
             <label className="text-lg" htmlFor="image">Image</label>
@@ -50,28 +40,29 @@ export default function NewBlogRoute() {
           </div>
           <div className="flex gap-2">
             <label className="text-lg" htmlFor="age">Age</label>
-            <input required type="number" name="age" id="age" />
+            <input required type="number" name="age" id="age" defaultValue={celeb.age} />
           </div>
           <div className="flex gap-2">
             <label className="text-lg" htmlFor="pronoun">Pronoun</label>
-            <select name="pronoun" id="pronoun">
+            <select name="pronoun" id="pronoun" defaultValue={celeb.pronoun.name}>
               {pronouns.map((pronoun, index) => <option key={index} value={pronoun.name}>{pronoun.name}</option>)}
             </select>
           </div>
           <div className="flex gap-2">
             <label className="text-lg" htmlFor="pronoun">Categories</label>
-            <select name="pronoun" id="pronoun">
+            <select name="pronoun" id="pronoun" defaultValue={celeb.category.name}>
               {categories.map((category, index) => <option key={index} value={category.name}>{category.name}</option>)}
             </select>
           </div>
           <div className="flex gap-2">
             <label className="text-lg" htmlFor="pronoun">Flags</label>
-            <select name="pronoun" id="pronoun">
+            <select name="pronoun" id="pronoun" defaultValue={celeb.flag.name}>
               {flags.map((flag, index) => <option key={index} value={flag.name}>{flag.name}</option>)}
             </select>
           </div>
           <div className="flex gap-2">
             <button className="px-4 py-2 bg-yellow-700" type="submit">Submit</button>
+            <input type="hidden" value={celeb.id} name="id" />
           </div>
         </div>
       </Form>
@@ -102,6 +93,7 @@ export const action = async ({ request, params }: DataFunctionArgs) => {
   const pronoun = formData.get("pronoun") as string
   const category = formData.get("category") as string
   const flag = formData.get("flag") as string
+  const id = formData.get("id") as string
 
   invariant(name, "Name is required")
   invariant(image, "Image is required")
@@ -110,7 +102,7 @@ export const action = async ({ request, params }: DataFunctionArgs) => {
   invariant(category, "Category is required")
   invariant(flag, "Flag is required")
 
-  await createPerson({
+  await updatePerson(id, {
     name,
     image,
     age,

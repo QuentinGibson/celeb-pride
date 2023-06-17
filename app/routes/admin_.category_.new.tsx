@@ -1,7 +1,8 @@
 import { Form, Link } from "@remix-run/react";
-import { BsArrowLeft, BsArrowRight } from 'react-icons/bs'
-import { useEffect, useState } from "react";
-import { DataFunctionArgs, unstable_composeUploadHandlers, unstable_createFileUploadHandler, unstable_createMemoryUploadHandler, unstable_parseMultipartFormData, redirect, LoaderArgs } from "@remix-run/node";
+import { BsArrowLeft } from 'react-icons/bs'
+import { useState } from "react";
+import type { DataFunctionArgs, LoaderArgs } from "@remix-run/node";
+import { unstable_composeUploadHandlers, unstable_createFileUploadHandler, unstable_createMemoryUploadHandler, unstable_parseMultipartFormData, redirect } from "@remix-run/node";
 import invariant from "tiny-invariant";
 import { getSession, requireUser, sessionStorage } from "~/session.server";
 import { createCategory } from "~/models/category.server";
@@ -23,7 +24,6 @@ export const loader = async ({ request, params }: LoaderArgs) => {
 };
 
 export default function NewBlogRoute() {
-  const [content, setContent] = useState<string>("")
 
   return (
     <main className="bg-cream py-8 px-4">

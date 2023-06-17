@@ -25,7 +25,7 @@ export default function ContactRoute() {
           <li key={index}>
             <div className="flex gap-1">
               <p className="font-bold">{index + 1} - {category.name}</p>
-              <Link className="hover:underline" to={`/admin/category/edit/${category.id}`}>View Category</Link>
+              <Link className="hover:underline" to={`/admin/categories/edit/${category.id}`}>View Category</Link>
             </div>
           </li>
         )}
