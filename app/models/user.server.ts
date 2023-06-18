@@ -15,10 +15,12 @@ export async function getUserByEmail(email: User["email"]) {
 
 export async function createUser(email: User["email"], password: string) {
   const hashedPassword = await bcrypt.hash(password, 10);
+  const role = email === process.env.ADMIN_EMAIL ? "ADMIN" : "USER";
 
   return prisma.user.create({
     data: {
       email,
+      role,
       password: {
         create: {
           hash: hashedPassword,
