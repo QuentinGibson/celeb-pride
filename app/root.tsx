@@ -49,7 +49,7 @@ function Body() {
   const { message } = useLoaderData<typeof loader>();
   const [visible, setVisible] = useState(true)
   useEffect(() => {
-    setTimeout(() => setVisible(false), 5000)
+    setTimeout(() => setVisible(false), 1000)
   })
   return (
     <html lang="en" className={clsx(theme)}>
@@ -63,6 +63,7 @@ function Body() {
         <Layout>
           {message ? (
             <div className={clsx("absolute px-4 py-2 font-bold bg-cream border dark:bg-slate-800 dark:border-slate-400 dark:text-slate-100 border-slate-400 flex justify-center", { "hidden": visible })}>
+              {/* @ts-ignore */}
               <p>{message}</p>
             </div>
           ) : null}
