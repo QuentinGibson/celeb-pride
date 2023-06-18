@@ -8,13 +8,6 @@ export const loader = async ({ request, params }: LoaderArgs) => {
   const url = new URL(request.url);
   const searchParam = new URLSearchParams(url.search);
   const query = searchParam.get("query") ?? "";
-  console.log(
-    data.filter((person) => {
-      const name = person.name.toLowerCase();
-      const nameFilter = query.toLocaleLowerCase();
-      return name.includes(nameFilter);
-    })
-  );
   const filtered = data.filter((person) =>
     person.name.toLowerCase().includes(query.toLowerCase())
   );

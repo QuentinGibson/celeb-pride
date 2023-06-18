@@ -38,6 +38,19 @@ export async function getAllPeople() {
   }
 }
 
+export async function getAllPeopleAndFlags() {
+  try {
+    const people = await prisma.person.findMany({
+      include: {
+        flag: true,
+
+    }});
+    return people;
+  } catch (e: any) {
+    throw new Error("Failed to get People. Message: " + e.message);
+  }
+}
+
 export async function deletePerson(id: string) {
   try {
     const person = await prisma.person.delete({ where: { id } });
