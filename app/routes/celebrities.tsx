@@ -14,6 +14,15 @@ export const loader = async ({ request, params }: LoaderArgs) => {
   return json({ filtered });
 };
 
+
+export function meta({ matches }: { matches: any }) {
+  const rootMeta = matches[0].meta;
+  const title = rootMeta.find((m: any) => m.title)
+  return [
+    { title: title.title + " | Celebrities" }
+  ]
+}
+
 export default function Celebrities() {
   const { filtered } = useLoaderData<typeof loader>()
   return (

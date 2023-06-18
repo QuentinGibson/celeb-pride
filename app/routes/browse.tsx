@@ -7,6 +7,15 @@ export const loader = async ({ request, params }: LoaderArgs) => {
   return { flags }
 };
 
+
+export function meta({ matches }: { matches: any }) {
+  const rootMeta = matches[0].meta;
+  const title = rootMeta.find((m: any) => m.title)
+  return [
+    { title: title.title + " | Browse" }
+  ]
+}
+
 const AlphabetLink = ({ to, children }: any) => {
   return (
     <Link className="hover:underline text-blue-600 text-lg" to={to}>{children}</Link>

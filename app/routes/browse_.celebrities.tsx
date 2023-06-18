@@ -3,6 +3,13 @@ import { Link, useLoaderData } from "@remix-run/react";
 import { getAllPeopleAndFlags } from "~/models/person.server";
 import { BsArrowLeft } from "react-icons/bs";
 
+export function meta({ matches }: { matches: any }) {
+  const rootMeta = matches[0].meta;
+  const title = rootMeta.find((m: any) => m.title)
+  return [
+    { title: title.title + " | Browse Celebrities" }
+  ]
+}
 export const loader = async ({ request, params }: LoaderArgs) => {
   const people = await getAllPeopleAndFlags()
   const url = new URL(request.url)
@@ -13,7 +20,6 @@ export const loader = async ({ request, params }: LoaderArgs) => {
 
   if (flag) {
     filteredPeople = people.filter(person => {
-      console.dir(person.flag)
       return person.flag.name.trim() === flag
     })
   }

@@ -37,14 +37,16 @@ export default function Layout({ children }: LayoutProps) {
             <div className='flex gap-2 md:gap-8'>
               {isDesktop ?
                 <nav className="flex gap-4 items-center text-xl">
-                  <Link prefetch="intent" to="/about">About</Link>
+                  <Link className="hover:underline" prefetch="intent" to="/about">About</Link>
                   <Link prefetch="intent" className="hover:underline" to={"/browse"}>Browse</Link>
                   {!user &&
-                    <Link prefetch="intent" className="hover:underline" to={"/login"}>Login</Link>
+                    <>
+                      <Link prefetch="intent" className="hover:underline" to={"/login"}>Login</Link>
+                      <Link prefetch="intent" className="hover:underline" to={"/join"}>SignUp</Link>
+                    </>
                   }
                   {user &&
                     <>
-                      <Link prefetch="intent" className="hover:underline" to={"/user/profile"}>Profile</Link>
                       <Form method="POST" action="/logout">
                         <Link prefetch="intent" className="hover:underline" to={"/logout"}>Logout</Link>
                       </Form>
@@ -70,9 +72,21 @@ export default function Layout({ children }: LayoutProps) {
             null :
             isMenuOpen && (
               <nav className="flex gap-4 my-2">
-                <Link prefetch="intent" to="/blog" onClick={closeMenu}>Blog</Link>
-                <Link prefetch="intent" to="/projects" onClick={closeMenu}>Projects</Link>
-                <Link prefetch="intent" to="/contact" onClick={closeMenu}>Contact</Link>
+                <Link className="hover:underline" prefetch="intent" to="/about" onClick={closeMenu}>About</Link>
+                <Link prefetch="intent" className="hover:underline" to={"/browse"} onClick={closeMenu}>Browse</Link>
+                {!user &&
+                  <>
+                    <Link prefetch="intent" className="hover:underline" to={"/login"} onClick={closeMenu}>Login</Link>
+                    <Link prefetch="intent" className="hover:underline" to={"/join"} onClick={closeMenu}>SignUp</Link>
+                  </>
+                }
+                {user &&
+                  <>
+                    <Form method="POST" action="/logout">
+                      <Link prefetch="intent" className="hover:underline" to={"/logout"} onClick={closeMenu}>Logout</Link>
+                    </Form>
+                  </>
+                }
               </nav>
             )
           }

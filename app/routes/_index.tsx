@@ -2,7 +2,7 @@ import type { V2_MetaFunction } from "@remix-run/node";
 import { Form, Link } from "@remix-run/react";
 
 
-export const meta: V2_MetaFunction = () => [{ title: "Celeb Pride" }];
+export const meta: V2_MetaFunction = () => [{ title: "Celebrity Pride" }];
 
 export default function Index() {
   return (
@@ -10,7 +10,7 @@ export default function Index() {
       <div className="relative w-full bg-[url('/pride-banner-background.jpg')] px-10 py-8 mt-24">
         <div className="flex justify-center my-4">
           <div className="bg-slate-900 px-24 py-6">
-            <h1 className="text-white text-5xl font-bold leading-loose tracking-wide">Celeb Pride Search</h1>
+            <h1 className="text-white text-5xl font-bold leading-loose tracking-wide">Celebrity Pride Search</h1>
           </div>
         </div>
       </div>

@@ -10,6 +10,15 @@ export const loader = async ({ request, params }: LoaderArgs) => {
   return { person }
 };
 
+export function meta({ matches }: { matches: any }) {
+  const rootMeta = matches[0].meta;
+  const title = rootMeta.find((m: any) => m.title)
+  return [
+    { title: title.title + " | Celebrity Page" }
+  ]
+}
+
+
 export default function Celebrity() {
   const { person } = useLoaderData<typeof loader>()
   return (

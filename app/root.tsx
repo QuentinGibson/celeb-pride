@@ -23,7 +23,7 @@ import { useEffect, useState } from "react";
 
 export function meta() {
   return [
-    { title: "Quentin Gibson" }
+    { title: "Celebrity Pride" }
   ]
 }
 
